@@ -1,0 +1,444 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* =========================================================
+   PREMIUM BLACK & WHITE THEME — dark by default
+   Inspired by Vercel / Linear / Apple / Raycast
+   ========================================================= */
+
+:root {
+  --radius: 0.75rem;
+
+  /* Light mode (still monochrome — inverted) */
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #fafafa;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f4;
+  --secondary-foreground: #000000;
+  --muted: #f4f4f4;
+  --muted-foreground: #525252;
+  --accent: #f4f4f4;
+  --accent-foreground: #000000;
+  --destructive: #1a1a1a;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #000000;
+
+  --chart-1: #000000;
+  --chart-2: #404040;
+  --chart-3: #737373;
+  --chart-4: #a3a3a3;
+  --chart-5: #d4d4d4;
+
+  --sidebar: #fafafa;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #000000;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f4;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #000000;
+
+  /* Custom premium tokens */
+  --premium-grid: rgba(0, 0, 0, 0.04);
+  --premium-glow: rgba(0, 0, 0, 0.08);
+  --premium-noise-opacity: 0.025;
+}
+
+.dark {
+  /* Dark mode — true monochrome (default) */
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #111111;
+  --card-foreground: #ffffff;
+  --popover: #0f0f0f;
+  --popover-foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #b3b3b3;
+  --accent: #1a1a1a;
+  --accent-foreground: #ffffff;
+  --destructive: #ffffff;
+  --border: #222222;
+  --input: #222222;
+  --ring: #ffffff;
+
+  --chart-1: #ffffff;
+  --chart-2: #d4d4d4;
+  --chart-3: #a3a3a3;
+  --chart-4: #737373;
+  --chart-5: #404040;
+
+  --sidebar: #0f0f0f;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #222222;
+  --sidebar-ring: #ffffff;
+
+  --premium-grid: rgba(255, 255, 255, 0.04);
+  --premium-glow: rgba(255, 255, 255, 0.08);
+  --premium-noise-opacity: 0.04;
+}
+
+/* =========================================================
+   BLUE ACCENT — replaces pink
+   Applied on top of the dark theme.
+   ========================================================= */
+:root,
+.dark {
+  --accent-pink: #2563eb;
+  --accent-pink-soft: rgba(37, 99, 235, 0.14);
+  --accent-pink-border: rgba(37, 99, 235, 0.5);
+  --accent-pink-glow: rgba(37, 99, 235, 0.28);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground;
+    position: relative;
+    font-feature-settings: "ss01", "cv11";
+    letter-spacing: -0.011em;
+  }
+
+  /* Premium scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+    border: 2px solid var(--background);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+
+  ::selection {
+    background: var(--foreground);
+    color: var(--background);
+  }
+}
+
+/* =========================================================
+   PREMIUM UTILITIES
+   ========================================================= */
+
+@layer utilities {
+  /* Grid background pattern */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--premium-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--premium-grid) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .bg-grid-sm {
+    background-image:
+      linear-gradient(to right, var(--premium-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--premium-grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Radial fade mask */
+  .mask-radial-faded {
+    -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 75%);
+    mask-image: radial-gradient(circle at center, black 0%, transparent 75%);
+  }
+
+  .mask-b-faded {
+    -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  }
+
+  /* Glass / frost effect */
+  .glass {
+    background: color-mix(in oklab, var(--background) 70%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  /* Premium gradient text */
+  .text-gradient {
+    background: linear-gradient(
+      180deg,
+      var(--foreground) 0%,
+      color-mix(in oklab, var(--foreground) 60%, var(--muted-foreground)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle noise overlay */
+  .noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--premium-noise-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Premium card hover */
+  .card-hover {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                background-color 0.3s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+  }
+
+  /* Marquee */
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .animate-marquee-slow {
+    animation: marquee 80s linear infinite;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Aurora glow */
+  .aurora {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Custom cursor dot */
+  .cursor-dot {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background: var(--foreground);
+    border-radius: 50%;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+
+  .cursor-ring {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--foreground);
+    border-radius: 50%;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s, height 0.3s, opacity 0.3s;
+    mix-blend-mode: difference;
+  }
+
+  /* Shimmer */
+  .shimmer {
+    background: linear-gradient(
+      110deg,
+      transparent 30%,
+      color-mix(in oklab, var(--foreground) 20%, transparent) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to { background-position: -200% 0; }
+  }
+
+  /* Premium focus ring */
+  .focus-premium:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--foreground);
+  }
+
+  /* Hide on mobile */
+  @media (max-width: 768px) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* ============= CARLOS-STYLE UTILITIES ============= */
+
+  /* Pink accent helpers */
+  .text-pink { color: var(--accent-pink); }
+  .bg-pink { background-color: var(--accent-pink); }
+  .border-pink { border-color: var(--accent-pink); }
+  .bg-pink-soft { background-color: var(--accent-pink-soft); }
+  .border-pink-soft { border-color: var(--accent-pink-border); }
+
+  /* Pink glow shadow */
+  .shadow-pink-glow {
+    box-shadow: 0 0 0 1px var(--accent-pink-border),
+                0 12px 40px -8px var(--accent-pink-glow);
+  }
+
+  .shadow-pink-glow-lg {
+    box-shadow: 0 0 0 1px var(--accent-pink),
+                0 20px 60px -10px var(--accent-pink-glow);
+  }
+
+  /* Giant display name — editorial style */
+  .display-name {
+    font-size: clamp(4rem, 18vw, 16rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+  }
+
+  .display-xl {
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .display-lg {
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  /* Big number stat — Carlos style */
+  .stat-number {
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  /* Underline animated link */
+  .link-underline {
+    background-image: linear-gradient(var(--accent-pink), var(--accent-pink));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+
+  /* Pink dot pulse */
+  .pink-dot {
+    position: relative;
+    display: inline-flex;
+    height: 8px;
+    width: 8px;
+  }
+  .pink-dot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--accent-pink);
+  }
+  .pink-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--accent-pink);
+    animation: ping-pink 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes ping-pink {
+    0% { transform: scale(1); opacity: 0.8; }
+    75%, 100% { transform: scale(2.8); opacity: 0; }
+  }
+
+  /* Asymmetric card — first one highlighted */
+  .card-featured-pink {
+    border-color: var(--accent-pink);
+    background:
+      linear-gradient(135deg, var(--accent-pink-soft) 0%, transparent 60%),
+      var(--card);
+    box-shadow: 0 0 0 1px var(--accent-pink-border),
+                0 20px 50px -20px var(--accent-pink-glow);
+  }
+
+  /* Editorial label */
+  .editorial-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+}
