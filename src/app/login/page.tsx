@@ -11,7 +11,8 @@ import { signIn } from "@/lib/auth-client";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-export default function LoginPage() {
+// Le composant intérieur qui utilise useSearchParams
+function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/admin";
   const { toast } = useToast();
@@ -27,10 +28,7 @@ export default function LoginPage() {
     setErrorMsg(null);
 
     try {
-      const { data, error } = await signIn.email({
-        email,
-        password,
-      });
+      const { data, error } = await signIn.email({ email, password });
 
       if (error) {
         setErrorMsg(error.message || "Email ou mot de passe incorrect");
@@ -38,14 +36,11 @@ export default function LoginPage() {
         return;
       }
 
-      // Succès — notification
       toast({
         title: "Connexion réussie",
         description: "Redirection vers le tableau de bord...",
       });
 
-      // Redirection en dur (window.location) pour forcer le rechargement
-      // et garantir que le cookie de session est pris en compte par le middleware
       window.location.href = callbackUrl;
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "Une erreur est survenue");
@@ -55,7 +50,6 @@ export default function LoginPage() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4">
-      {/* Background */}
       <div className="absolute inset-0 bg-grid mask-radial-faded opacity-40" />
       <div className="absolute inset-0 noise" />
       <div
@@ -78,7 +72,6 @@ export default function LoginPage() {
         className="relative z-10 w-full max-w-md"
       >
         <div className="rounded-3xl border border-border bg-card/80 p-8 backdrop-blur sm:p-10">
-          {/* Logo */}
           <Link href="/" className="flex items-center justify-center gap-2.5">
             <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-pink">
               <img src={profile.logo} alt={profile.name} className="h-full w-full object-cover" />
@@ -86,7 +79,6 @@ export default function LoginPage() {
             <span className="text-base font-semibold tracking-tight text-foreground">{profile.name}</span>
           </Link>
 
-          {/* Title */}
           <div className="mt-8 text-center">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-pink-soft bg-pink-soft">
               <Shield className="h-5 w-5 text-pink" />
@@ -99,7 +91,6 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Error message */}
           {errorMsg && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -111,7 +102,6 @@ export default function LoginPage() {
             </motion.div>
           )}
 
-          {/* Form */}
           <form onSubmit={submit} className="mt-8 space-y-4">
             <label className="block">
               <span className="mb-1.5 flex items-center gap-1.5 text-xs font-medium uppercase tracking-widest text-muted-foreground">
@@ -148,11 +138,7 @@ export default function LoginPage() {
                   aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                   className="absolute right-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </label>
@@ -186,5 +172,14 @@ export default function LoginPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+// Wrapper avec Suspense (requis par Next.js 16 pour useSearchParams)
+export default function LoginPage() {
+  return (
+    <React.Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-background"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>}>
+      <LoginForm />
+    </React.Suspense>
   );
 }
