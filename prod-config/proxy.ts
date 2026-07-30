@@ -1,18 +1,14 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getSessionCookie } from "better-auth/cookies";
 
-// Routes protégées nécessitant une authentification
 const protectedRoutes = ["/admin"];
-// Routes d'authentification (rediriger si déjà connecté)
 const authRoutes = ["/login", "/sign-in", "/sign-up"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const sessionCookie =
+    request.cookies.get("better-auth.session_token")?.value ||
+    request.cookies.get("better_auth.session_token")?.value;
 
-  // Vérifier la présence du cookie de session Better Auth
-  const sessionCookie = getSessionCookie(request);
-
-  // Si l'utilisateur est sur une route protégée sans session → rediriger vers login
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
     if (!sessionCookie) {
       const loginUrl = new URL("/login", request.url);
@@ -22,7 +18,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Si l'utilisateur est connecté et tente d'accéder aux routes d'auth → rediriger vers admin
   if (authRoutes.includes(pathname) && sessionCookie) {
     return NextResponse.redirect(new URL("/admin", request.url));
   }
